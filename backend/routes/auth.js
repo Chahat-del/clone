@@ -49,10 +49,12 @@ router.post("/register", async (req, res) => {
 // LOGIN
 router.post("/login", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { identifier, password } = req.body;
 
-    // Check if user exists
-    const user = await User.findOne({ email });
+    // Find by email OR username
+    const user = await User.findOne({
+      $or: [{ email: identifier }, { username: identifier }],
+    });
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
