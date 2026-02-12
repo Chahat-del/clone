@@ -3,21 +3,25 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/auth");
+const postRoutes = require("./routes/post");
+const userRoutes = require("./routes/user");
 
 dotenv.config();
 connectDB();
 
 const app = express();
 
-// Middleware - MUST come before routes
+// Middleware
 app.use(cors());
 app.use(express.json());
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/posts", postRoutes);
+app.use("/api/users", userRoutes);
 
 app.get("/", (req, res) => {
-  res.send("API is running...");
+  res.send("Instagram Clone API is running...");
 });
 
 const PORT = process.env.PORT || 5000;
